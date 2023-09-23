@@ -38,7 +38,8 @@
 </head>
 <body>
 	<div align="center" style="padding-top: 30px;">
-	<p style="font-size:35px;">S<sup>5</sup>Mars: Self-Supervised and Semi-Supervised Learning for Mars Segmentation</p>
+	<p style="font-size:35px;">S<sup>5</sup>Mars: Semi-Supervised Learning for Mars Semantic 
+		Segmentation</p>
 
 	<a href="mailto:zjh2020@pku.edu.cn" class="links">Jiahang Zhang *</a> &nbsp; &nbsp; 
 	<a href="mailto:linlilang@pku.edu.cn" class="links">Lilang Lin *</a> &nbsp; &nbsp; 
@@ -64,43 +65,70 @@
 		</div>
 
 		<p class='p2'> Abstract </p> 
-		<p class='p1'>Deep learning has become a powerful tool for Mars exploration. Mars terrain segmentation is an important Martian vision task, which is the base of rover autonomous planning and safe driving. However, existing deep-learning-based terrain segmentation methods face two problems: one is the lack of sufficient detailed and high-confidence annotations, and the other is the over-reliance of models on annotated training data. In this paper, we address these two problems from the perspective of  joint data and method design. We first present a new Mars terrain segmentation dataset which contains 6K high-resolution images and is sparsely annotated based on confidence, ensuring the high quality of labels. Then to learn from this sparse data, we propose a representation-learning-based framework for Mars terrain segmentation, including a self-supervised learning stage (for pretraining) and a semi-supervised learning stage (for fine-tuning). Specifically, for self-supervised learning, we design a multitask mechanism based on the masked image modeling (MIM)  concept to emphasize the texture information of images. For semisupervised learning, since our dataset is sparsely annotated, we encourage the model to excavate the information of unlabeled  area in each image by generating and utilizing pseudo-labels online. We name our dataset and method Self-Supervised and Semi-Supervised Segmentation for Mars (S<sup>5</sup>Mars). Experimental results show that our method can outperform state-of-the-art approaches and improve terrain segmentation performance by a large margin.</p>
-		<p class='p2'> Resources </p> 
-		<p class='p1'>
-			<ul style="line-height:15px">
-			　　<li> Paper: <a href="https://arxiv.org/abs/2207.01200" class="links">arXiv</a> </li>
-			　　<!--<li> Supplementary: <a href="https://drive.google.com/open?id=1QDMWbhw2jgutDsLaS00R-P6cxZ_OaZis" class="links">Google Drive</a>, <a href="https://pan.baidu.com/s/1ke9hqo62pVhl6_6YqAA4cQ" class="links">Baidu Pan</a> (Code: wvr6) </li>-->
-
-			　　<li> Dataset can be downloaded here: <a href="https://drive.google.com/file/d/16dUZOh_-hv05wBaZ_BRH_A2_IwTgcN0J/view?usp=sharing" class="links">Google Drive</a>, <a href="https://pan.baidu.com/s/1RkxqFpTdI9eKfrFSJ_UXAw" class="links">Baidu Pan</a> (Code: dzdb) </li>
-			</ul>
-		</p>
-
-		<p class='p2'> Citation</p>
-		<p> 
-			@article{zhang2022s, <br>
-				&nbsp; &nbsp; title={S^5Mars: Self-Supervised and Semi-Supervised Learning for Mars Segmentation},<br>
-				&nbsp; &nbsp; author={Zhang, Jiahang and Lin, Lilang and Fan, Zejia and Wang, Wenjing and Liu, Jiaying},<br>
-				&nbsp; &nbsp; journal={arXiv preprint arXiv:2207.01200},<br>
-				&nbsp; &nbsp; year={2022}, <br>
-			  }
-
-		</p>
+		<p class='p1'>Deep learning has become a powerful tool for Mars
+			exploration. Mars terrain semantic segmentation is an important
+			Martian vision task, which is the base of rover autonomous
+			planning and safe driving. However, there is a lack of sufficient
+			detailed and high-confidence data annotations, which are exactly
+			required by most deep learning methods to obtain a good model.
+			To address this problem, we propose our solution from the perspective of joint data and method design. We first present a new
+			dataset S<sup>5</sup>Mars for Semi-SuperviSed learning on Mars Semantic
+			Segmentation, which contains 6K high-resolution images and is
+			sparsely annotated based on confidence, ensuring the high quality
+			of labels. Then to learn from this sparse data, we propose a semi-supervised learning (SSL) framework for Mars image semantic
+			segmentation, to learn representations from limited labeled data.
+			Different from the existing SSL methods which are mostly
+			targeted at the Earth image data, our method takes into account
+			Mars data characteristics. Specifically, we first investigate the impact of current widely used natural image augmentations on Mars
+			images. Based on the analysis, we then proposed two novel and
+			effective augmentations for SSL of Mars segmentation, AugIN
+			and SAM-Mix, which serve as strong augmentations to boost the
+			model performance. Meanwhile, to fully leverage the unlabeled
+			data, we introduce a soft-to-hard consistency learning strategy,
+			learning from different targets based on prediction confidence.
+			Experimental results show that our method can outperform state-of-the-art SSL approaches remarkably.</p>
+		
 		
 		<p class='p2'> Dataset </p> 
 		<p class='p1'>S<sup>5</sup>Mars dataset provides rich geomorphological data for terrain semantic segmentation, which can guide the rovers and support space research missions. The dataset includes 6,000 high-resolution images taken on the surface of Mars, by color mast camera (Mastcam) from Curiosity (MSL). The spatial resolution of RGB images in this dataset is 1200 &times; 1200. Our dataset is annotated at a pixel level in a deterministic sparse labeling style. There are 9 label categories, sky, ridge, soil, sand, bedrock, rock, rover, trace, and hole, respectively.  </p>
 		<div align="center">
-			<img src="images/dataset_dist.png" width="65%">
+			<img src="images/dataset_dist.jpg" width="65%">
 		</div>
 		<p class='p1'> Figure 2. Numerical statistics on our S<sup>5</sup>Mars dataset. The figures show the richness of the categories contained in the image from two aspects: distribution of the number of labels and distribution of label area.</p>
 
 		<p class='p2'> Method </p> 
 
 		<div align="center">
-			<img src="images/network.png" width="95%">
+			<img src="images/arch.jpg" width="95%">
 		</div>
-		<p class='p1'> Figure 2. The framework of our method for Mars image segmentation. The framework can be divided into two stages as a whole, namely, the pre-training stage for representation learning guided by the self-supervised pretext task, and the semi-supervised fine-tuning stage based on pseudo-label fusion. In the self-supervised stage, we utilize the raw pixel value prediction and texture feature prediction on the masked image area to make the network learn the effective feature representation. In the semi-supervised fine-tuning stage, we introduce task uncertainty to generate and select high-quality pseudo-labels, making full use of the supervised information in the unlabeled area of the data.</p>
+		<p class='p1'> Figure 2. The overview of the proposed framework for semi-supervised Mars semantic segmentation. We adopt a two-branch teacher-student architecture. Two
+			novel augmentations are proposed as strong augmentations, AugIN and SAM-Mix. AugIN exchanges the statistics of the two samples, i.e., mean and standard
+			deviation. SAM-Mix utilizes an off-the-shelf SAM to obtain the object binary masks to perform copy-paste operation, reducing the uncertainty of the augmented
+			images. Finally, the model is optimized according to a soft-to-hard consistency learning strategy, utlizing both the soft labels and the hard labels based on the confidence.</p>
 
 		<br>
+		
+		<p class='p2'> Resources </p> 
+		<p class='p1'>
+			<ul style="line-height:15px">
+			　　<li> Paper: <a href="https://arxiv.org/abs/2207.01200" class="links">arXiv</a> </li>
+			　　<!--<li> Supplementary: <a href="https://drive.google.com/open?id=1QDMWbhw2jgutDsLaS00R-P6cxZ_OaZis" class="links">Google Drive</a>, <a href="https://pan.baidu.com/s/1ke9hqo62pVhl6_6YqAA4cQ" class="links">Baidu Pan</a> (Code: wvr6) </li>-->
+
+			　　<li> Dataset can be downloaded here: <a href="https://drive.google.com/file/d/16dUZOh_-hv05wBaZ_BRH_A2_IwTgcN0J/view?usp=sharing" class="links">Google Drive</a>, <a href="https://pan.baidu.com/s/1MP24d70JyXRO7HGgJ2jhMQ" class="links">Baidu Pan</a> (Code: jwtw) </li>
+			</ul>
+		</p>
+
+		<p class='p2'> Citation</p>
+		<p> 
+			@article{zhang2022s, <br>
+				&nbsp; &nbsp; title={S^5Mars: Semi-Supervised Learning for Mars Semantic 
+					Segmentation},<br>
+				&nbsp; &nbsp; author={Zhang, Jiahang and Lin, Lilang and Fan, Zejia and Wang, Wenjing and Liu, Jiaying},<br>
+				&nbsp; &nbsp; journal={arXiv preprint arXiv:2207.01200},<br>
+				&nbsp; &nbsp; year={2022}, <br>
+			  }
+
+		</p>
 		
 		<p class='left'>
 			<ul style="line-height:15px">
